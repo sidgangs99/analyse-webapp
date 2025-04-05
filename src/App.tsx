@@ -1,199 +1,127 @@
-// app/page.tsx
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useState } from "react";
+import { ColumnDef, SortingFn } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+import CruxTable from "./components/curx-table";
+import DashboardHeader from "./components/dashboard-header";
+import { UrlData } from "./lib/types";
 
 export default function CruxExplorer() {
-  const [url, setUrl] = useState("");
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [data, setData] = useState<UrlData[]>([]);
 
-  const fetchCruxData = async () => {
-    if (!url) {
-      setError("Please enter a URL");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch("http://localhost:5000/api/crux", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const result = await response.json();
-      setData(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
-    } finally {
-      setLoading(false);
-    }
+  const metricSort: SortingFn<UrlData> = (rowA, rowB, columnId) => {
+    const a = Number(rowA.getValue(columnId) ?? 0);
+    const b = Number(rowB.getValue(columnId) ?? 0);
+    return a > b ? 1 : a < b ? -1 : 0;
   };
 
-  const renderMetric = (
-    value: number,
+  const columns: ColumnDef<UrlData>[] = useMemo(
+    () => [
+      {
+        accessorKey: "url",
+        header: "URL",
+        cell: ({ row }) => (
+          <div className="font-medium max-w-[200px] truncate">
+            {row.original.url}
+          </div>
+        ),
+        enableSorting: true,
+      },
+      {
+        id: "first_contentful_paint",
+        header: "FCP",
+        accessorFn: (row) =>
+          row.data?.record?.metrics?.first_contentful_paint?.percentiles?.p75,
+        cell: ({ getValue }) => {
+          const v = getValue<number>();
+          return renderMetricValue(v, 1800, 3000, "ms");
+        },
+        sortingFn: metricSort,
+        enableSorting: true,
+      },
+      {
+        id: "largest_contentful_paint",
+        header: "LCP",
+        accessorFn: (row) =>
+          row.data?.record?.metrics?.largest_contentful_paint?.percentiles?.p75,
+        cell: ({ getValue }) => {
+          const v = getValue<number>();
+          return renderMetricValue(v, 2500, 4000, "ms");
+        },
+        sortingFn: metricSort,
+        enableSorting: true,
+      },
+      {
+        id: "cumulative_layout_shift",
+        header: "CLS",
+        accessorFn: (row) =>
+          row.data?.record?.metrics?.cumulative_layout_shift?.percentiles?.p75,
+        cell: ({ getValue }) => {
+          const v = getValue<number>();
+          return renderMetricValue(v, 0.1, 0.25, "");
+        },
+        sortingFn: metricSort,
+        enableSorting: true,
+      },
+      {
+        id: "interaction_to_next_paint",
+        header: "INP",
+        accessorFn: (row) =>
+          row.data?.record?.metrics?.interaction_to_next_paint?.percentiles
+            ?.p75,
+        cell: ({ getValue }) => {
+          const v = getValue<number>();
+          return renderMetricValue(v, 200, 500, "ms");
+        },
+        sortingFn: metricSort,
+        enableSorting: true,
+      },
+      {
+        id: "experimental_time_to_first_byte",
+        header: "TTFB",
+        accessorFn: (row) =>
+          row.data?.record?.metrics?.experimental_time_to_first_byte
+            ?.percentiles?.p75,
+        cell: ({ getValue }) => {
+          const v = getValue<number>();
+          return renderMetricValue(v, 800, 1800, "ms");
+        },
+        sortingFn: metricSort,
+        enableSorting: true,
+      },
+    ],
+    []
+  );
+
+  const renderMetricValue = (
+    value: number | undefined,
     goodThreshold: number,
+    needsImprovementThreshold: number,
     unit: string = ""
   ) => {
-    value = Number(value);
+    if (value === undefined) return "N/A";
+
     const isGood = value <= goodThreshold;
+    const isNeedsImprovement = value <= needsImprovementThreshold && !isGood;
+
     return (
       <div className="flex items-center gap-2">
-        <span>
-          {value.toFixed(2)}
-          {unit}
-        </span>
-        <Badge variant={isGood ? "default" : "destructive"}>
-          {isGood ? "Good" : "Needs improvement"}
+        <Badge
+          variant={
+            isGood ? "success" : isNeedsImprovement ? "average" : "destructive"
+          }
+        >
+          {Number(value).toFixed(2)} {unit}
         </Badge>
       </div>
     );
   };
 
-  const renderProgress = (value: number, max: number) => {
-    const percentage = (value / max) * 100;
-    return (
-      <div className="flex items-center gap-2">
-        <Progress value={percentage} className="w-[60%]" />
-        <span>{value.toFixed(2)}</span>
-      </div>
-    );
-  };
-
   return (
-    <div className="container mx-auto py-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>CrUX Data Explorer</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex w-full items-center space-x-2 mb-4">
-            <Input
-              type="text"
-              placeholder="Enter URL (e.g., https://example.com)"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-            />
-            <Button onClick={fetchCruxData} disabled={loading}>
-              {loading ? "Loading..." : "Search"}
-            </Button>
-          </div>
-
-          {error && <p className="text-red-500 mb-4">{error}</p>}
-
-          {data && (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Metric</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead>Assessment</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.record && (
-                  <>
-                    <TableRow>
-                      <TableCell>First Contentful Paint (FCP)</TableCell>
-                      <TableCell>
-                        {renderProgress(
-                          data.record.metrics.first_contentful_paint.percentiles
-                            .p75,
-                          3000
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {renderMetric(
-                          data.record.metrics.first_contentful_paint.percentiles
-                            .p75,
-                          1800,
-                          "ms"
-                        )}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Largest Contentful Paint (LCP)</TableCell>
-                      <TableCell>
-                        {renderProgress(
-                          data.record.metrics.largest_contentful_paint
-                            .percentiles.p75,
-                          4000
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {renderMetric(
-                          data.record.metrics.largest_contentful_paint
-                            .percentiles.p75,
-                          2500,
-                          "ms"
-                        )}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Cumulative Layout Shift (CLS)</TableCell>
-                      <TableCell>
-                        {renderProgress(
-                          data.record.metrics.cumulative_layout_shift
-                            .percentiles.p75 * 100,
-                          100
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {renderMetric(
-                          data.record.metrics.cumulative_layout_shift
-                            .percentiles.p75,
-                          0.1
-                        )}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>First Input Delay (FID)</TableCell>
-                      <TableCell>
-                        {renderProgress(
-                          data.record.metrics.interaction_to_next_paint
-                            .percentiles.p75,
-                          300
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {renderMetric(
-                          data.record.metrics.interaction_to_next_paint
-                            .percentiles.p75,
-                          100,
-                          "ms"
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  </>
-                )}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+    <div className="container mx-auto py-8 space-y-6">
+      <DashboardHeader setData={setData} />
+      <CruxTable data={data} columns={columns} />
     </div>
   );
 }
