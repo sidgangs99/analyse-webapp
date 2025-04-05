@@ -39,9 +39,7 @@ function LineChart({ histogram }: { histogram: any[] }) {
               {bin.start}
               {bin.end ? `-${bin.end}` : "+"}
             </span>
-            <span className="font-medium">
-              {(bin.density * 100).toFixed(1)}%
-            </span>
+            <span className="font-medium">{bin.density * 100}%</span>
           </div>
         ))}
       </div>
