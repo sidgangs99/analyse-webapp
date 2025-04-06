@@ -1,48 +1,39 @@
+import axios, { AxiosError } from "axios";
+import { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 import { UrlData } from "./types";
 
 type FetchCruxDataParams = {
   urls: string[];
-  setData: React.Dispatch<React.SetStateAction<UrlData[]>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<string>>;
+  setData: Dispatch<SetStateAction<UrlData[]>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const FETCH_CRUX_BATCH_API = "/crux/batch";
 
 export const fetchCruxData = async ({
-  setError,
   setLoading,
   setData,
   urls,
 }: FetchCruxDataParams) => {
   if (urls.length === 0) {
-    setError("Please add at least one URL");
+    toast.error("Please add at least one URL");
     return;
   }
 
   setLoading(true);
-  setError("");
 
   try {
-    const response = await fetch(
+    const { data } = await axios.post(
       `http://localhost:5000/api${FETCH_CRUX_BATCH_API}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ urls }),
-      }
+      { urls }
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch data");
-    }
-
-    const results = await response.json();
-    setData(results);
+    setData(data);
   } catch (err) {
-    setError(err instanceof Error ? err.message : "Unknown error");
+    toast.error(
+      err instanceof AxiosError ? err.response?.data?.error : "Unknown error"
+    );
   } finally {
     setLoading(false);
   }

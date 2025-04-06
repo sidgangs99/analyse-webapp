@@ -9,7 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { UrlData } from "@/lib/types";
 import {
+  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -22,7 +24,13 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import TableFilters from "./filter-range";
 
-export default function CruxTable({ data, columns }: any) {
+export default function CruxTable({
+  data,
+  columns,
+}: {
+  data: UrlData[];
+  columns: ColumnDef<UrlData>[];
+}) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

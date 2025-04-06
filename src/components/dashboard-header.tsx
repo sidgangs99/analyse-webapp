@@ -1,19 +1,23 @@
 import { fetchCruxData } from "@/lib/api";
+import { UrlData } from "@/lib/types";
 import { LoaderCircle, X } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 
-function DashboardHeader({ setData }: { setData: any }) {
+function DashboardHeader({
+  setData,
+}: {
+  setData: Dispatch<SetStateAction<UrlData[]>>;
+}) {
   const [url, setUrl] = useState<string>("");
   const [urls, setUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
 
   const handleOnClick = async () => {
-    await fetchCruxData({ setData, setError, setLoading, urls });
+    await fetchCruxData({ setData, setLoading, urls });
   };
 
   const addUrl = () => {
@@ -41,7 +45,7 @@ function DashboardHeader({ setData }: { setData: any }) {
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addUrl()}
           />
-          <Button onClick={addUrl} disabled={loading}>
+          <Button onClick={addUrl} disabled={loading || !url}>
             Add URL
           </Button>
         </div>
@@ -77,8 +81,6 @@ function DashboardHeader({ setData }: { setData: any }) {
               "Fetch CrUX Data"
             )}
           </Button>
-
-          {error && <p className="text-red-500">{error}</p>}
         </div>
       </CardContent>
     </Card>
