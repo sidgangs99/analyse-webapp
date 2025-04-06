@@ -8,8 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// const API_KEY = process.env.CRUX_API_KEY;
-const API_KEY = "AIzaSyAga2HliLqx32ID00tbdpY1vClPtLmH0s8";
+const CRUX_API_KEY = process.env.CRUX_API_KEY;
+const CRUX_API = "https://chromeuxreport.googleapis.com/v1/records";
 
 app.post("/api/crux/batch", async (req, res) => {
   try {
@@ -22,7 +22,7 @@ app.post("/api/crux/batch", async (req, res) => {
       urls.map(async (url) => {
         try {
           const response = await axios.post(
-            `https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=${API_KEY}`,
+            `${CRUX_API}:queryRecord?key=${CRUX_API_KEY}`,
             {
               url: url,
             }
