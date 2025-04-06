@@ -42,7 +42,7 @@ export default function TableFilters({
 }: {
   column: Column<any, unknown>;
 }) {
-  const { filterVariant } = column.columnDef.meta ?? {};
+  const { filterVariant }: any = column.columnDef.meta ?? {};
   const columnFilterValue = column.getFilterValue();
 
   return filterVariant === "range" ? (
