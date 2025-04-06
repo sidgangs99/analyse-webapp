@@ -8,9 +8,9 @@ type FetchCruxDataParams = {
   setData: Dispatch<SetStateAction<UrlData[]>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
 };
+const BASE_API_ROUTE = import.meta.env.VITE_BASE_API_ROUTE;
 
-const FETCH_CRUX_BATCH_API = "/crux/batch";
-
+const FETCH_CRUX_BATCH_API = `${BASE_API_ROUTE}/crux/batch`;
 export const fetchCruxData = async ({
   setLoading,
   setData,
@@ -24,10 +24,7 @@ export const fetchCruxData = async ({
   setLoading(true);
 
   try {
-    const { data } = await axios.post(
-      `http://localhost:5000/api${FETCH_CRUX_BATCH_API}`,
-      { urls }
-    );
+    const { data } = await axios.post(FETCH_CRUX_BATCH_API, { urls });
 
     setData(data);
   } catch (err) {
