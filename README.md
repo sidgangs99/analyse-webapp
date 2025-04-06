@@ -1,54 +1,108 @@
-# React + TypeScript + Vite
+# Analyse WebApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application for analyzing website performance metrics with React frontend and Node.js backend.
 
-Currently, two official plugins are available:
+## 🔗 Live Links
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend**: [https://analyse-app.netlify.app/](https://analyse-app.netlify.app/)
+- **Backend API**: [https://analyse-webapp-production.up.railway.app/api](https://analyse-webapp-production.up.railway.app/api)
+- **GitHub Repository**: [https://github.com/sidgangs99/analyse-webapp](https://github.com/sidgangs99/analyse-webapp)
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Frontend
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **React** - Frontend framework
+- **Axios** - Data fetching
+- **Shadcn** - UI component library
+- **Tanstack Table** - Data table display
+
+### Backend
+
+- **Node.js** - Runtime environment
+- **Express** - Web framework
+
+## 📁 Project Structure
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+analyse-webapp/
+├── server/ # Backend code
+└── / # Frontend code
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+
+## ⚙️ Environment Variables
+
+### Backend (`server/.env`)
+
+```env
+CRUX_API_KEY="AIzaSyAga2HliLqx32ID00tbdpY1vClPtLmH0s8"
+```
+
+### Frontend (`.env`)
+
+```env
+VITE_BASE_API_ROUTE="https://analyse-webapp-production.up.railway.app/api"
+```
+
+## 🚀 Installation & Setup
+
+### Frontend
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/sidgangs99/analyse-webapp.git
+   cd analyse-webapp
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up environment:
+
+   ```bash
+   cp sample.env .env
+   ```
+
+4. Start development server:
+
+   ```bash
+   npm run start
+   ```
+
+### Backend
+
+1. Navigate to server directory:
+
+   ```bash
+   cd server/
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Set up environment:
+
+   ```bash
+   cp sample.env .env
+   ```
+
+   Edit `.env` and add your CrUX API key:
+
+   ```env
+   CRUX_API_KEY="AIzaSyAga2HliLqx32ID00tbdpY1vClPtLmH0s8"
+   ```
+
+4. Start server:
+
+   ```bash
+   npm run start
+   ```
