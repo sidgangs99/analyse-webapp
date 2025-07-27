@@ -1,0 +1,52 @@
+{
+  "url": "https://medium.com",
+  "canonical": "https://medium.com",
+  "meta": {
+    "title": "Medium: Read and write stories.",
+    "description": "On Medium, anyone can share insightful perspectives, useful knowledge, and life wisdom with the world.",
+    "robots": "index,follow"
+  },
+  "headings": {
+    "h1": [],
+    "h2": [
+      "Humanstories & ideas"
+    ],
+    "h3": [
+      "A place to read, write, and deepen your understanding"
+    ],
+    "h4": []
+  },
+  "links": {
+    "internal": [
+      "https://policy.medium.com/medium-terms-of-service-9db0094a1e0f",
+      "https://medium.com/sitemap/sitemap.xml",
+      "https://medium.com/m/signin?operation=login&redirect=https%3A%2F%2Fmedium.com%2F&source=--------------------------lo_home_nav------------------",
+      "https://policy.medium.com/medium-privacy-policy-f03bf92035c9",
+      "https://medium.com/m/signin?operation=register&redirect=https%3A%2F%2Fmedium.com%2Fnew-story&source=--------------------------new_post_topnav------------------",
+      "https://blog.medium.com",
+      "https://policy.medium.com/medium-rules-30e5502c4eb4",
+      "https://medium.com/m/signin?operation=register&redirect=https%3A%2F%2Fmedium.com%2F&source=--------------------------lo_home_nav------------------",
+      "https://medium.com/jobs-at-medium/work-at-medium-959d1a85284e",
+      "https://medium.com/",
+      "https://medium.com/membership",
+      "https://help.medium.com/hc/en-us",
+      "https://medium.com/about?autoplay=1"
+    ],
+    "external": [
+      "https://speechify.com/medium",
+      "https://medium.statuspage.io",
+      "mailto:pressinquiries@medium.com"
+    ]
+  },
+  "images": [
+    {
+      "src": "https://miro.medium.com/v2/format:webp/4*SdjkdS98aKH76I8eD0_qjw.png",
+      "alt": "Brand image",
+      "title": null,
+      "loading": "eager"
+    }
+  ],
+  "structured_data": [
+    "{\"@context\":\"http:\\u002F\\u002Fschema.org\",\"@type\":\"Organization\",\"url\":\"https:\\u002F\\u002Fmedium.com\",\"name\":\"Medium\",\"description\":\"On Medium, anyone can share insightful perspectives, useful knowledge, and life wisdom with the world.\",\"publishingPrinciples\":\"https:\\u002F\\u002Fpolicy.medium.com\\u002Fmedium-terms-of-service-9db0094a1e0f\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\u002F\\u002Fmiro.medium.com\\u002Fv2\\u002F7*V1_7XP4snlmqrc_0Njontw.png\",\"width\":500,\"height\":110}}"
+  ]
+}

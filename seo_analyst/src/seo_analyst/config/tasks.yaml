@@ -1,0 +1,32 @@
+crawl_task:
+  description: >
+    Use tools to fetch home page {domain}. Then,
+    crawl each that page using the WebsiteCrawler tool. Extract SEO-relevant data such as:
+    title tags, meta descriptions, canonical links, heading tags, image alt attributes,
+    internal, external links, and any structured data present on the page.
+  expected_output: >
+    A list of crawled URLs with their structured SEO data, saved to individual files under `output/crawled_pages/`.
+    Each file should include meta tags, headings, images, links, structured data from the page and relevant information from SEO point.
+  agent: crawler
+
+seo_audit_task:
+  description: >
+    Review the SEO data collected for home page.
+    Identify any issues such as missing or duplicate titles/descriptions,
+    improper heading structures, images without alt attributes,
+    broken internal links, or missing canonical tags.
+    Prioritize problems and highlight the most critical areas to fix.
+  expected_output: >
+    A structured SEO audit report covering key issues and their priority across all crawled pages.
+    This should serve as a blueprint for technical and content SEO improvements.
+  agent: seo_analyst
+
+content_strategy_task:
+  description: >
+    Use the audit findings to recommend improvements to the site’s content.
+    Suggest changes for home page to improve keyword targeting, semantic depth,
+    readability, and internal linking. Propose new content ideas based on gaps or opportunities.
+  expected_output: >
+    A markdown report listing home page specific content recommendations, new content ideas,
+    and keyword enhancement strategies to improve overall search visibility.
+  agent: content_recommender

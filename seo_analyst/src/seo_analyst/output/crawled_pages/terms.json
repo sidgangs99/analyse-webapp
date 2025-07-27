@@ -1,0 +1,81 @@
+{
+  "url": "https://reachbun.com/terms",
+  "canonical": null,
+  "meta": {
+    "title": "Reachbun | 10x reach and inbound on LinkedIn",
+    "description": "Reachbun is a strategic content creation system for LinkedIn. Get weekly strategy, viral ideas, sound like yourself and tools to stay consistent without the AI slop.",
+    "robots": null
+  },
+  "headings": {
+    "h1": [
+      "Terms"
+    ],
+    "h2": [
+      "1. Acceptance of Terms",
+      "2. Description of Service",
+      "3. User Accounts and Registration",
+      "4. AI Training and Content Generation",
+      "5. Content and Intellectual Property",
+      "6. Subscription and Payment Terms",
+      "7. Privacy and Data Protection",
+      "8. Acceptable Use and Prohibited Activities",
+      "9. Third-Party Services and Integrations",
+      "10. Service Availability and Modifications",
+      "11. Account Termination",
+      "12. Disclaimers and Limitations of Liability",
+      "13. Indemnification",
+      "14. Governing Law and Dispute Resolution",
+      "15. General Provisions",
+      "16. Contact Information"
+    ],
+    "h3": [
+      "3.1 Account Creation",
+      "3.2 LinkedIn Integration",
+      "3.3 Account Eligibility",
+      "4.1 Personal AI Training",
+      "4.2 Content Generation Disclaimer",
+      "5.1 Your Content",
+      "5.2 Our Intellectual Property",
+      "5.3 Content Standards",
+      "6.1 Subscription Plans",
+      "6.2 Payment and Billing",
+      "6.3 Cancellation and Refunds"
+    ],
+    "h4": []
+  },
+  "links": {
+    "internal": [
+      "https://reachbun.com/#before-after",
+      "https://reachbun.com/#about",
+      "https://reachbun.com/support",
+      "https://reachbun.com/privacy",
+      "https://reachbun.com/#features",
+      "https://reachbun.com/terms",
+      "https://reachbun.com/#faqs",
+      "https://reachbun.com/login",
+      "https://reachbun.com/"
+    ],
+    "external": []
+  },
+  "images": [
+    {
+      "src": "/brand/logo.png",
+      "alt": "Reachbun",
+      "title": null,
+      "loading": null
+    },
+    {
+      "src": "/brand/logo.png",
+      "alt": "Reachbun",
+      "title": null,
+      "loading": null
+    },
+    {
+      "src": "/brand/logo-hd.png",
+      "alt": "Reachbun",
+      "title": null,
+      "loading": null
+    }
+  ],
+  "structured_data": []
+}
